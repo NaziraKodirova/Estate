@@ -16,4 +16,4 @@ def index(request):
             [email],
             fail_silently=False)
         return HttpResponse("<h2><b>Thank for contact us<b></h2>")
-    return render(request, 'index.html')
+    return render(request, 'contact.html')

@@ -21,18 +21,18 @@ class RegionViewSet(viewsets.ModelViewSet):
     search_fields = ['name']
     ordering_fields = ['name']
 
-    @action(detail=False, methods=['GET'])
+    @action(detail=False, methods=['get'])
     def with_cities(self, request):
         regions = Region.objects.annotate(cities_count=Count('region_city')).filter(cities_count__gt=0)
         serializer = self.get_serializer(regions, many=True)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['GET'])
+    @action(detail=True, methods=['get'])
     def get_coordinates(self, request, pk=None):
         region = self.get_object()
         return Response({'lat': region.lat, 'long': region.long})
 
-    @action(detail=True, methods=['POST'])
+    @action(detail=True, methods=['post'])
     def update_coordinates(self, request, pk=None):
         region = self.get_object()
         region.lat = request.data.get('lat')
@@ -49,13 +49,13 @@ class CityViewSet(viewsets.ModelViewSet):
     search_fields = ['name', 'region__name']
     ordering_fields = ['name']
 
-    @action(detail=False, methods=['GET'])
+    @action(detail=False, methods=['get'])
     def with_listings(self, request):
         cities = City.objects.annotate(listings_count=Count('city_listing')).filter(listings_count__gt=0)
         serializer = self.get_serializer(cities, many=True)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['GET'])
+    @action(detail=True, methods=['get'])
     def get_coordinates(self, request, pk=None):
         city = self.get_object()
         return Response({'lat': city.lat, 'long': city.long})
@@ -77,7 +77,7 @@ class ListingViewSet(viewsets.ModelViewSet):
     search_fields = ['address', 'city__name']
     ordering_fields = ['created_date']
 
-    @action(detail=True, methods=['GET'])
+    @action(detail=True, methods=['get'])
     def increment_views(self, request, pk=None):
         listing = self.get_object()
         listing.views = F('views') + 1
@@ -85,7 +85,7 @@ class ListingViewSet(viewsets.ModelViewSet):
         return Response({'status': 'Views incremented'})
 
 
-    @action(detail=True, methods=['GET'])
+    @action(detail=True, methods=['get'])
     def get_coordinates(self, request, pk=None):
         listing = self.get_object()
         return Response({'lat': listing.lat, 'long': listing.long})
@@ -107,7 +107,7 @@ class ContactViewSet(viewsets.ModelViewSet):
     search_fields = ['name', 'email']
     ordering_fields = ['name']
 
-    @action(detail=True, methods=['GET'])
+    @action(detail=True, methods=['get'])
     def by_email(self, request, pk=None):
         email = request.query_params.get('email', None)
         if email:
@@ -117,7 +117,7 @@ class ContactViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(contact, many=True)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['GET'])
+    @action(detail=True, methods=['get'])
     def get_phone(self, request, pk=None):
         contact = self.get_object()
         return Response({'phone': contact.phone})
@@ -148,7 +148,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
     search_fields = ['user__username', 'user__email']
     ordering_fields = ['user__username']
 
-    @action(detail=True, methods=['GET'])
+    @action(detail=True, methods=['get'])
     def get_user_info(self, request, pk=None):
         profile = self.get_object()
         user = profile.user

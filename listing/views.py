@@ -75,3 +75,4 @@ def get_listings_for_map(request):
             # Add other relevant data for markers
         })
     return JsonResponse(listing_data, safe=False)  # Don't escape here
+

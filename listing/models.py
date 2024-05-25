@@ -2,10 +2,17 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 
+
 class Region(models.Model):
     name = models.CharField(max_length=255)
     lat = models.FloatField(blank=True, null=True)
     long = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        ordering = ['name']
+        indexes = [
+            models.Index(fields=['name']),
+        ]
 
     def __str__(self):
         return self.name
@@ -16,6 +23,13 @@ class City(models.Model):
     region = models.ForeignKey(Region, models.CASCADE, related_name="region_city")
     lat = models.FloatField(blank=True, null=True)
     long = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        ordering = ['name']
+        indexes = [
+            models.Index(fields=['name']),
+            models.Index(fields=['region']),
+        ]
 
     def __str__(self):
         return self.name
@@ -51,6 +65,13 @@ class Listing(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     last_update = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ['-created_date']
+        indexes = [
+            models.Index(fields=['address']),
+            models.Index(fields=['city']),
+            models.Index(fields=['created_date']),
+        ]
 
     def __str__(self):
         return self.address
@@ -62,6 +83,11 @@ class Listing(models.Model):
 class Image(models.Model):
     image = models.ImageField(upload_to="photos/")
     listing = models.ForeignKey(Listing, models.CASCADE, related_name="listing_images")
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['listing']),
+        ]
 
     def __str__(self):
         return self.image.name[:-5]

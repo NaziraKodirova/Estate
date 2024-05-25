@@ -92,7 +92,7 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse yamm" id="navigation">
                     <div class="button navbar-right">
-                        {% if user.is_authenticated %}
+                        {% if users.is_authenticated %}
                             <a href="{% url 'users:logout' %}" class="navbar-btn nav-button wow bounceInRight login" data-wow-delay="0.4s">Logout</a>
                             <a href="{% url 'users:update_user' %}" class="navbar-btn nav-button wow bounceInRight login" data-wow-delay="0.4s">Account</a>
                         {% else %}
@@ -659,7 +659,7 @@
                                     <li><a href="properties.html">Properties</a>  </li> 
                                     <li><a href="#">Services</a>  </li> 
                                     <li><a href="submit-property.html">Submit property </a></li> 
-                                    <li><a href="contact.html">Contact us</a></li> 
+                                    <li><a href="{% url 'contact' %}">Contact us</a></li> 
                                     <li><a href="faq.html">fqa</a>  </li> 
                                     <li><a href="faq.html">Terms </a>  </li> 
                                 </ul>

@@ -10,3 +10,4 @@ urlpatterns = [
     path("submit_property/", submit_property, name="submit_property"),
     path("submit_property/get_cities/", get_cities, name="get_cities"),
 ]
+

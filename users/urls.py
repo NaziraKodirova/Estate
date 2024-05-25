@@ -3,6 +3,8 @@ from users.views import (Login, Logout, Register, CustomUserUpdate,
                          ProfileUpdateView,ChangePasswordView
                          )
 
+app_name = "users"
+
 urlpatterns = [
     path('login/', Login.as_view(), name='login'),
     path('logout/', Logout.as_view(), name='logout'),
